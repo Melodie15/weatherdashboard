@@ -3,16 +3,16 @@ let input = $(".input");
 let searchBtn = $(".searchBtn");
 
 //Current city data
-let city = $(".city");
-let date = $(".date");
-let icon = $(".icon");
+let cityName = $(".city");
+let currentDate = $(".date");
+let weatherIcon = $(".icon");
 let searchedCities = $(".searchedCities");
 
 //Current city weather details
-let temp = $(".temp");
-let humidity = $(".humidity");
-let wind = $(".wind");
-let uv = $(".uv");
+let currentTemp = $(".temp");
+let currentHumidity = $(".humidity");
+let currentWind = $(".wind");
+let currentUv = $(".uv");
 let cardRow = $(".card-row")
 
 // Current date 
@@ -56,4 +56,15 @@ function renderSearchHistory(cityName) {
         newListItem.text(searchHistoryArr[i]);
         searchedCities.prepend(newListItem);
     }
+}
+
+//Current city info
+function renderWeatherInfo(cityName, currentTemp, currentHumidity, currentWind, weatherIcon, currentUv) {
+    cityName.text(city)
+    currentDate.text(`(${today})`)
+    currentTemp.text(`Temperature: ${temp} °F`);
+    currentHumidity.text(`Humidity: ${humidity}%`);
+    currentWind.text(`Wind Speed: ${cityWindSpeed} MPH`);
+    currentUv.text(`UV Index: ${uvVal}`);
+    weatherIcon.attr("src", cityWeatherIcon);
 }
