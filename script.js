@@ -6,7 +6,7 @@ let searchBtn = $(".searchBtn");
 let city = $(".city");
 let date = $(".date");
 let icon = $(".icon");
-let searchedCities = $(".searchedCitties");
+let searchedCities = $(".searchedCities");
 
 //Current city weather details
 let temp = $(".temp");
@@ -40,5 +40,20 @@ searchBtn.on("click", function(e) {
     getWeatherInfo(input.val());
 });
 
+//Previous cities data
+$(document).on("click", ".historyEntry", function() {
+    console.log("History button works")
+    let thisElement = $(this);
+    getWeatherInfo(thisElement.text());
+})
 
-
+function renderSearchHistory(cityName) {
+    searchedCities.empty();
+    let searchHistoryArr = JSON.parse(localStorage.getItem("searchHistory"));
+    for (let i = 0; i < searchHistoryArr.length; i++) {
+      
+        let newListItem = $("<li>").attr("class", "historyEntry");
+        newListItem.text(searchHistoryArr[i]);
+        searchedCities.prepend(newListItem);
+    }
+}
