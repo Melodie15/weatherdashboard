@@ -22,7 +22,23 @@ let month = String(today.getMonth()).padStart(2, '0');
 let year = today.getFullYear();
 var today = month + '/' + day + '/' + year;
 
+if (JSON.parse(localStorage.getItem("searchHistory")) === null) {
+    console.log("Search History n/a")
+}else{
+    console.log("Search History found");
+    renderSearchHistory();
+}
 
+//Search button
+searchBtn.on("click", function(e) {
+    e.preventDefault();
+    if (input.val() === "") {
+        alert("Enter your City");
+        return;
+    }
+    console.log("button works")
+    getWeatherInfo(input.val());
+});
 
 
 
