@@ -89,3 +89,40 @@ function getWeatherInfo(cityEntered) {
         url: queryUrl,
         method: 'GET'
     })
+
+    .then(function(uvData) {
+        if (JSON.parse(localStorage.getItem("searchHistory")) == null) {
+            let searchHistoryList = [];
+        
+            if (searchHistoryList.indexOf(cityObject.cityName) === -1) {
+                searchHistoryList.push(cityObject.cityName);
+             
+                localStorage.setItem("searchHistory", JSON.stringify(searchHistoryList));
+                let renderedWeatherIcon = `https:///openweathermap.org/img/w/${cityObj.cityWeatherIconName}.png`;
+                renderWeatherData(cityObject.cityName, cityObject.cityTemp, cityObject.cityHumidity, cityObject.cityWindSpeed, renderedWeatherIcon, uvData.value);
+                renderSearchHistory(cityObject.cityName);
+            }else{
+                console.log("City already in searchHistory. Not adding to history list")
+                let renderedWeatherIcon = `https:///openweathermap.org/img/w/${cityObj.cityWeatherIconName}.png`;
+                renderWeatherData(cityObj.cityName, cityObj.cityTemp, cityObj.cityHumidity, cityObj.cityWindSpeed, renderedWeatherIcon, uvData.value);
+            }
+        }else{
+            let searchHistoryList = JSON.parse(localStorage.getItem("searchHistory"));
+            // Keeps user from adding the same city to the searchHistory array list more than once
+            if (searchHistoryList.indexOf(cityObj.cityName) === -1) {
+                searchHistoryList.push(cityObj.cityName);
+                // store our array of searches and save 
+                localStorage.setItem("searchHistory", JSON.stringify(searchHistoryList));
+                let renderedWeatherIcon = `https:///openweathermap.org/img/w/${cityObject.cityWeatherIconName}.png`;
+                renderWeatherData(cityObject.cityName, cityObject.currentTemp, cityObject.currentHumidity, cityObject.currentWind, renderedWeatherIcon, currentUv.value);
+                renderSearchHistory(cityObject.cityName);
+            }else{
+                console.log("City already in searchHistory. Not adding to history list")
+                let renderedWeatherIcon = `https:///openweathermap.org/img/w/${cityObject.cityWeatherIconName}.png`;
+                renderWeatherData(cityObject.cityName, cityObject.currentTemp, cityObject.currentHumidity, cityObject.currentWind, renderedWeatherIcon, currentUv.value);
+            }
+        }
+    })
+        
+    });
+  
