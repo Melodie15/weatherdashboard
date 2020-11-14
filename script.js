@@ -1,4 +1,4 @@
-let APIKey = "f900c90c2d90a1026dcc387f04b6d627";
+let apiKey = "f900c90c2d90a1026dcc387f04b6d627";
 let input = $(".input");
 let searchBtn = $(".searchBtn");
 
@@ -68,3 +68,24 @@ function renderWeatherInfo(cityName, currentTemp, currentHumidity, currentWind, 
     currentUv.text(`UV Index: ${uvVal}`);
     weatherIcon.attr("src", cityWeatherIcon);
 }
+
+function getWeatherInfo(cityEntered) {
+    let queryUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityEntered}&APPID=${apiKey}&units=imperial`;
+    $.ajax({
+        url: queryUrl,
+        method: "GET"
+    })
+    .then(function(weatherData) {
+        let cityObject = {
+            cityName: weatherData.name,
+            currentTemp: weatherData.main.temp,
+            currentHumidity: weatherData.main.humidity,
+            currentWind: weatherData.wind.speed,
+            currentUv: weatherData.coord,
+            weatherIcon: weatherData.weather[0].icon
+        }
+    let queryUrl = `https://api.openweathermap.org/data/2.5/uvi?lat=${cityObject.currentUv.lat}&lon=${cityObject.currentUv.lon}&APPID=${apiKey}&units=imperial`
+    $.ajax({
+        url: queryUrl,
+        method: 'GET'
+    })
