@@ -14,8 +14,24 @@ header {
     height: 100%;
     max-width: 540px;
     display: flex;
+    flex-direction: row;
   
 }
 .search {
     padding: 30px;
 }
+.dayscontainer h1 {
+        margin-top: 15px;
+        margin-left: 2%;
+    }
+
+.forecast {
+        margin-top: 25px;
+        border: solid 1px #cecfd2;
+        margin-left: 5%;
+        min-width: 640px;
+        padding: 20px 20px 20px 20px;
+        height: 55%;
+    }
+
+    
