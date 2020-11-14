@@ -98,12 +98,12 @@ function getWeatherInfo(cityEntered) {
                 searchHistoryList.push(cityObject.cityName);
              
                 localStorage.setItem("searchHistory", JSON.stringify(searchHistoryList));
-                let renderedWeatherIcon = `https:///openweathermap.org/img/w/${cityObj.cityWeatherIconName}.png`;
+                let renderedWeatherIcon = `https:///openweathermap.org/img/w/${cityObject.weatherIcon}.png`;
                 renderWeatherData(cityObject.cityName, cityObject.cityTemp, cityObject.cityHumidity, cityObject.cityWindSpeed, renderedWeatherIcon, uvData.value);
                 renderSearchHistory(cityObject.cityName);
             }else{
                 console.log("City already in searchHistory. Not adding to history list")
-                let renderedWeatherIcon = `https:///openweathermap.org/img/w/${cityObj.cityWeatherIconName}.png`;
+                let renderedWeatherIcon = `https:///openweathermap.org/img/w/${cityObj.weatherIcon}.png`;
                 renderWeatherData(cityObj.cityName, cityObj.cityTemp, cityObj.cityHumidity, cityObj.cityWindSpeed, renderedWeatherIcon, uvData.value);
             }
         }else{
@@ -113,16 +113,41 @@ function getWeatherInfo(cityEntered) {
                 searchHistoryList.push(cityObj.cityName);
                 // store our array of searches and save 
                 localStorage.setItem("searchHistory", JSON.stringify(searchHistoryList));
-                let renderedWeatherIcon = `https:///openweathermap.org/img/w/${cityObject.cityWeatherIconName}.png`;
+                let renderedWeatherIcon = `https:///openweathermap.org/img/w/${cityObject.weatherIcon}.png`;
                 renderWeatherData(cityObject.cityName, cityObject.currentTemp, cityObject.currentHumidity, cityObject.currentWind, renderedWeatherIcon, currentUv.value);
                 renderSearchHistory(cityObject.cityName);
             }else{
                 console.log("City already in searchHistory. Not adding to history list")
-                let renderedWeatherIcon = `https:///openweathermap.org/img/w/${cityObject.cityWeatherIconName}.png`;
+                let renderedWeatherIcon = `https:///openweathermap.org/img/w/${cityObject.weatherIcon}.png`;
                 renderWeatherData(cityObject.cityName, cityObject.currentTemp, cityObject.currentHumidity, cityObject.currentWind, renderedWeatherIcon, currentUv.value);
             }
         }
     })
         
     });
+    FiveDayForecast();
+
+    function FiveDayForecast() {
+        cardRow.empty();
+        let queryUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${cityEntered}&APPID=${apiKey}&units=imperial`;
+        $.ajax({
+            url: queryUrl,
+            method: "GET"
+        })
+        .then(function(forecastResponse) {
+            for (let i = 0; i != forecastResponse.list.length; i+=8 ) {
+                let cityObject = {
+                    date: forecastResponse.list[i].dt_txt,
+                    icon: forecastResponse.list[i].weather[0].icon,
+                    temp: forecastResponse.list[i].main.temp,
+                    humidity: forecastResponse.list[i].main.humidity
+                }
+                let dateStr = cityObject.date;
+                let trimDate = dateStr.substring(0, 10); 
+                let weatherIco = `https:///openweathermap.org/img/w/${cityObject.icon}.png`;
+                cardForecast(trimDate, weatherIco, cityObject.temp, cityObject.humidity);
+            }
+        })
+    }   
+}
   
