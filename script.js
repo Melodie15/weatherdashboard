@@ -150,4 +150,18 @@ function getWeatherInfo(cityEntered) {
         })
     }   
 }
-  
+function cardForecast(date, icon, temp, humidity) {
+
+    let CardEl = $("<div>").attr("class", "five-day-card");
+    let cardDate = $("<h3>").attr("class", "card-text");
+    let cardIcon = $("<img>").attr("class", "icon");
+    let cardTemp = $("<p>").attr("class", "card-text");
+    let cardHumidity = $("<p>").attr("class", "card-text");
+
+    cardRow.append(CardEl);
+    cardDate.text(date);
+    cardIcon.attr("src", icon);
+    cardTemp.text(`Temp: ${temp} °F`);
+    cardHumidity.text(`Humidity: ${humidity}%`);
+    CardEl.append(cardDate, cardIcon, cardTemp, cardHumidity);
+}
